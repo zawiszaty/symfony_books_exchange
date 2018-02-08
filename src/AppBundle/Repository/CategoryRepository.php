@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package AppBundle\Repository
  */
-class CategoryRepository extends EntityRepository
+final class CategoryRepository extends EntityRepository
 {
     /**
      * This method saving category object
@@ -48,7 +48,7 @@ class CategoryRepository extends EntityRepository
     /**
      * @param string $id
      */
-    public function remove(string $id)
+    public function removeElement(string $id)
     {
         $category = $this->find($id);
         $this->getEntityManager()->remove($category);

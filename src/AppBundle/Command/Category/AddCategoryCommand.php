@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Command;
+namespace AppBundle\Command\Category;
 
 use AppBundle\Entity\Category;
+use AppBundle\Validator\Constraint\UniqueField\UniqueField;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +18,7 @@ final class AddCategoryCommand
      *
      * @Assert\NotBlank()
      * @Assert\Type("string")
+     * @UniqueField(entityClass="AppBundle\Entity\Category", field="name")
      */
     public $name;
 

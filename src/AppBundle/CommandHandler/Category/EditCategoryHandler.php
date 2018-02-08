@@ -1,24 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: zawisza
- * Date: 05.02.2018
- * Time: 19:22
- */
 
-namespace AppBundle\CommandHandler;
+namespace AppBundle\CommandHandler\Category;
 
 
-use AppBundle\Command\AddCategoryCommand;
-use AppBundle\Entity\Category;
+use AppBundle\Command\Category\EditCategoryCommand;
 use AppBundle\Repository\CategoryRepository;
 
-/**
- * Class AddCategoryHandler
- *
- * @package AppBundle\CommandHandler
- */
-final class AddCategoryHandler
+final class EditCategoryHandler
 {
     /**
      * @var CategoryRepository
@@ -38,16 +26,17 @@ final class AddCategoryHandler
     /**
      * Command handle method
      *
-     * @param AddCategoryCommand $command c
+     * @param EditCategoryCommand $command c
+     * @param string $id
      *
      * @return void
      */
-    public function handle(AddCategoryCommand $command): void
+    public function handle(EditCategoryCommand $command): void
     {
-        $category = new Category(
+        $this->categoryRepository->update(
+            $command->getIdCategory(),
             $command->getName(),
             $command->getDescription()
         );
-        $this->categoryRepository->save($category);
     }
 }

@@ -3,10 +3,12 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Command\AddCategoryCommand;
-use AppBundle\Command\EditCategoryCommand;
+use AppBundle\Command\Category\AddCategoryCommand;
+use AppBundle\Command\Category\DeleteCategoryCommand;
+use AppBundle\Command\Category\EditCategoryCommand;
 use AppBundle\Entity\Category;
 use AppBundle\Form\AddCategoryForm;
+use AppBundle\Form\DeleteCategoryForm;
 use AppBundle\Form\EditCategoryForm;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -29,8 +31,8 @@ final class CategoryController extends FOSRestController
      */
     public function getAllCategories(): Response
     {
-        $categoryProvider = $this->get('appbundle\provider\categoryprovider');
-        $view = $this->view($categoryProvider->getAll(), 200);
+        $categoryQuery = $this->get('appbundle\query\category\categoryquery');
+        $view = $this->view($categoryQuery->getAll(), 200);
         return $this->handleView($view);
     }
 
@@ -46,8 +48,8 @@ final class CategoryController extends FOSRestController
      */
     public function getSingleCategory(Request $request, string $id): Response
     {
-        $categoryProvider = $this->get('appbundle\provider\categoryprovider');
-        $view = $this->view($categoryProvider->getSingle($id), 200);
+        $categoryQuery = $this->get('appbundle\query\category\categoryquery');
+        $view = $this->view($categoryQuery->getSingle($id), 200);
         return $this->handleView($view);
     }
 
@@ -76,7 +78,7 @@ final class CategoryController extends FOSRestController
             return $this->handleView($view);
         }
 
-        $view = $this->view($form->getErrors(), 200);
+        $view = $this->view($form->getErrors(), 500);
         return $this->handleView($view);
     }
 
@@ -115,19 +117,28 @@ final class CategoryController extends FOSRestController
      * This method edit category
      *
      * @param Request $request request object
-     * @param string $id category id
      *
      * @return Response
      *
-     * @Rest\Delete("/api/delete/{id}/category")
+     * @Rest\Delete("/api/delete/category")
      */
-    public function delCategory(Request $request, string $id): Response
+    public function delCategory(Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $repository = $entityManager->getRepository(Category::class);
-        $repository->remove($id);
+        $id = $request->request->get("idCategory");
+        $deleteCategory = new DeleteCategoryCommand($id);
 
-        $view = $this->view('success', 200);
+        $form = $this->createForm(DeleteCategoryForm::class, $deleteCategory);
+        $form->submit($request->request->all());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('command_bus')->handle(
+                $deleteCategory
+            );
+            $view = $this->view('success', 200);
+            return $this->handleView($view);
+        }
+
+        $view = $this->view($form->getErrors(), 500);
         return $this->handleView($view);
     }
 }

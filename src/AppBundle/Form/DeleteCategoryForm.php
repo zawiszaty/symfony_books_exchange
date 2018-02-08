@@ -1,20 +1,15 @@
 <?php
 
+
 namespace AppBundle\Form;
 
 
-use AppBundle\Command\Category\AddCategoryCommand;
+use AppBundle\Command\Category\DeleteCategoryCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-/**
- * Class AddCategoryForm
- *
- * @package App\Form
- */
-final class AddCategoryForm extends AbstractType
+final class DeleteCategoryForm extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -22,8 +17,7 @@ final class AddCategoryForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description');
+            ->add('idCategory');
     }
 
     /**
@@ -32,7 +26,7 @@ final class AddCategoryForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AddCategoryCommand::class,
+            'data_class' => DeleteCategoryCommand::class,
             'csrf_protection' => false,
         ]);
     }

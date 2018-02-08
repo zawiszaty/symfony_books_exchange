@@ -6,8 +6,10 @@
  * Time: 07:45
  */
 
-namespace AppBundle\Command;
+namespace AppBundle\Command\Category;
 
+use AppBundle\Validator\Constraint\ExistingField\ExistingField;
+use AppBundle\Validator\Constraint\UniqueField\UniqueField;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +19,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class EditCategoryCommand
 {
 
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @ExistingField(entityClass="AppBundle\Entity\Category", field="idCategory")
+     */
     public $idCategory;
 
     /**

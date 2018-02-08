@@ -3,7 +3,7 @@
 namespace AppBundle\Form;
 
 
-use AppBundle\Command\EditCategoryCommand;
+use AppBundle\Command\Category\EditCategoryCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

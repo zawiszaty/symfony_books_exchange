@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Command\AddCategoryCommand;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -56,20 +55,6 @@ class Category
     }
 
     /**
-     * @param AddCategoryCommand $addCategoryCommand
-     *
-     * @return Category
-     */
-    public static function fromRegisterUserCommand(
-        AddCategoryCommand $addCategoryCommand
-    ): Category
-    {
-        return new self(
-            $addCategoryCommand->name,
-            $addCategoryCommand->description);
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
@@ -101,22 +86,15 @@ class Category
         return $this->idcategory;
     }
 
-    /**
-     * @param string $name
-     */
-    public function changeName(string $name)
+    public function changeName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @param string $description
-     */
-    public function changeDescription(string $description)
+    public function changeDescription(string $description): void
     {
         $this->description = $description;
     }
-
 
 }
 

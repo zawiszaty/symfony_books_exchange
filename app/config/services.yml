@@ -28,25 +28,37 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
-    AppBundle\Provider\:
-        resource: '../../src/AppBundle/Provider'
-        public: true
-        arguments: [ '@doctrine.orm.entity_manager']
+#    AppBundle\Provider\:
+#        resource: '../../src/AppBundle/Provider'
+#        public: true
+#        arguments: [ '@doctrine.orm.entity_manager']
     AppBundle\Repository\CategoryRepository:
         factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
         arguments:
             - AppBundle\Entity\Category
         public: true
-    AppBundle\CommandHandler\AddCategoryHandler:
+
+    AppBundle\CommandHandler\Category\AddCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
         tags:
-            - { name: command_handler, handles: AppBundle\Command\AddCategoryCommand }
+            - { name: command_handler, handles: AppBundle\Command\Category\AddCategoryCommand }
         public: true
-    AppBundle\CommandHandler\EditCategoryHandler:
+    AppBundle\CommandHandler\Category\EditCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
         tags:
-            - { name: command_handler, handles: AppBundle\Command\EditCategoryCommand }
+            - { name: command_handler, handles: AppBundle\Command\Category\EditCategoryCommand }
         public: true
+
+    AppBundle\CommandHandler\Category\DeleteCategoryHandler:
+        arguments: ['@AppBundle\Repository\CategoryRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Command\Category\DeleteCategoryCommand  }
+        public: true
+
+    AppBundle\Query\Category\CategoryQuery:
+        arguments: ['@Doctrine\DBAL\Connection']
+        public: true
+
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
