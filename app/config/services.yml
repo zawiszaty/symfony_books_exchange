@@ -38,24 +38,24 @@ services:
             - AppBundle\Entity\Category
         public: true
 
-    AppBundle\CommandHandler\Category\AddCategoryHandler:
+    AppBundle\Category\CommandHandler\AddCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
         tags:
-            - { name: command_handler, handles: AppBundle\Command\Category\AddCategoryCommand }
+            - { name: command_handler, handles: AppBundle\Category\Command\AddCategoryCommand }
         public: true
-    AppBundle\CommandHandler\Category\EditCategoryHandler:
+    AppBundle\Category\CommandHandler\EditCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
         tags:
-            - { name: command_handler, handles: AppBundle\Command\Category\EditCategoryCommand }
-        public: true
-
-    AppBundle\CommandHandler\Category\DeleteCategoryHandler:
-        arguments: ['@AppBundle\Repository\CategoryRepository']
-        tags:
-            - { name: command_handler, handles: AppBundle\Command\Category\DeleteCategoryCommand  }
+            - { name: command_handler, handles: AppBundle\Category\Command\EditCategoryCommand }
         public: true
 
-    AppBundle\Query\Category\CategoryQuery:
+    AppBundle\Category\CommandHandler\DeleteCategoryHandler:
+        arguments: ['@AppBundle\Repository\CategoryRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Category\Command\DeleteCategoryCommand  }
+        public: true
+
+    AppBundle\Category\QueryView\CategoryView:
         arguments: ['@Doctrine\DBAL\Connection']
         public: true
 

@@ -1,13 +1,14 @@
 <?php
 
 
-namespace AppBundle\Query\Category;
+namespace AppBundle\Category\QueryView;
 
 
-use AppBundle\QueryView\Category\CategoryView;
+use AppBundle\Category\Model\CategoryModel;
+use AppBundle\Category\Query\CategoryQuery;
 use Doctrine\DBAL\Connection;
 
-class CategoryQuery implements CategoryQueryInterface
+class CategoryView implements CategoryQuery
 {
     private $connection;
 
@@ -29,7 +30,7 @@ class CategoryQuery implements CategoryQueryInterface
 
         return array_map(
             function (array $category) {
-                return new CategoryView(
+                return new CategoryModel(
                     $category['idCategory'],
                     $category['name'],
                     $category['description']
@@ -51,7 +52,7 @@ class CategoryQuery implements CategoryQueryInterface
             $queryBuilder->getParameters()
         );
 
-        return new CategoryView(
+        return new CategoryModel(
             $category[0]['idCategory'],
             $category[0]['name'],
             $category[0]['description']

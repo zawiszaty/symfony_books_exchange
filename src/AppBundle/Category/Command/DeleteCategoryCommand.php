@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Command\Category;
+namespace AppBundle\Category\Command;
 
 use AppBundle\Validator\Constraint\ExistingField\ExistingField;
 use Symfony\Component\Validator\Constraints as Assert;

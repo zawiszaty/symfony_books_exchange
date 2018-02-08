@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Query\Category;
+namespace AppBundle\Category\Query;
 
 /**
  * Interface CategoryQueryInterface
  * @package AppBundle\Query\Category
  */
-interface CategoryQueryInterface
+interface CategoryQuery
 {
     /**
      * @return array

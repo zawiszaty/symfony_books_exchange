@@ -4,7 +4,7 @@
 namespace AppBundle\Form;
 
 
-use AppBundle\Command\Category\DeleteCategoryCommand;
+use AppBundle\Category\Command\DeleteCategoryCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

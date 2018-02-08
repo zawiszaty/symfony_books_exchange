@@ -6,7 +6,7 @@
  * Time: 07:45
  */
 
-namespace AppBundle\Command\Category;
+namespace AppBundle\Category\Command;
 
 use AppBundle\Validator\Constraint\ExistingField\ExistingField;
 use AppBundle\Validator\Constraint\UniqueField\UniqueField;

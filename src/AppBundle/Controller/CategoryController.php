@@ -3,10 +3,9 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Command\Category\AddCategoryCommand;
-use AppBundle\Command\Category\DeleteCategoryCommand;
-use AppBundle\Command\Category\EditCategoryCommand;
-use AppBundle\Entity\Category;
+use AppBundle\Category\Command\AddCategoryCommand;
+use AppBundle\Category\Command\DeleteCategoryCommand;
+use AppBundle\Category\Command\EditCategoryCommand;
 use AppBundle\Form\AddCategoryForm;
 use AppBundle\Form\DeleteCategoryForm;
 use AppBundle\Form\EditCategoryForm;
@@ -31,7 +30,7 @@ final class CategoryController extends FOSRestController
      */
     public function getAllCategories(): Response
     {
-        $categoryQuery = $this->get('appbundle\query\category\categoryquery');
+        $categoryQuery = $this->get('appbundle\category\queryview\categoryview');
         $view = $this->view($categoryQuery->getAll(), 200);
         return $this->handleView($view);
     }
@@ -48,7 +47,7 @@ final class CategoryController extends FOSRestController
      */
     public function getSingleCategory(Request $request, string $id): Response
     {
-        $categoryQuery = $this->get('appbundle\query\category\categoryquery');
+        $categoryQuery = $this->get('appbundle\category\queryview\categoryview');
         $view = $this->view($categoryQuery->getSingle($id), 200);
         return $this->handleView($view);
     }

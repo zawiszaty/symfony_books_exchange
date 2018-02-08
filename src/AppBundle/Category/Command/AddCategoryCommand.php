@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Command\Category;
+namespace AppBundle\Category\Command;
 
 use AppBundle\Entity\Category;
 use AppBundle\Validator\Constraint\UniqueField\UniqueField;

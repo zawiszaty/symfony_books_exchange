@@ -6,10 +6,10 @@
  * Time: 19:22
  */
 
-namespace AppBundle\CommandHandler\Category;
+namespace AppBundle\Category\CommandHandler;
 
 
-use AppBundle\Command\Category\AddCategoryCommand;
+use AppBundle\Category\Command\AddCategoryCommand;
 use AppBundle\Entity\Category;
 use AppBundle\Repository\CategoryRepository;
 

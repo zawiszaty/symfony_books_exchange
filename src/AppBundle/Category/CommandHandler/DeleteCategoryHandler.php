@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AppBundle\CommandHandler\Category;
+namespace AppBundle\Category\CommandHandler;
 
 
-use AppBundle\Command\Category\DeleteCategoryCommand;
+use AppBundle\Category\Command\DeleteCategoryCommand;
 use AppBundle\Repository\CategoryRepository;
 use AppBundle\Entity\Category;
 

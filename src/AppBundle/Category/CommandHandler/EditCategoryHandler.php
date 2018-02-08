@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\CommandHandler\Category;
+namespace AppBundle\Category\CommandHandler;
 
 
-use AppBundle\Command\Category\EditCategoryCommand;
+use AppBundle\Category\Command\EditCategoryCommand;
 use AppBundle\Repository\CategoryRepository;
 
 final class EditCategoryHandler

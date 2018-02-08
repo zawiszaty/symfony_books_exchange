@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\QueryView\Category;
+namespace AppBundle\Category\Model;
 
 /**
  * Class CategoryView
  *
  * @package AppBundle\View\Category
  */
-final class CategoryView
+final class CategoryModel
 {
     /**
      * @var string
