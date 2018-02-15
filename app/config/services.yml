@@ -37,6 +37,11 @@ services:
         arguments:
             - AppBundle\Entity\Category
         public: true
+    AppBundle\Repository\BookRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\Book
+        public: true
 
     AppBundle\Category\CommandHandler\AddCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
@@ -59,6 +64,25 @@ services:
         arguments: ['@Doctrine\DBAL\Connection']
         public: true
 
+    AppBundle\Book\CommandHandler\AddBookHandler:
+        arguments: ['@AppBundle\Repository\BookRepository', '@AppBundle\Repository\CategoryRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Book\Command\AddBookCommand }
+        public: true
+
+    AppBundle\Book\CommandHandler\DeleteBookHandler:
+        arguments: ['@AppBundle\Repository\BookRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Book\Command\DeleteBookCommand }
+        public: true
+    AppBundle\Book\CommandHandler\EditBookHandler:
+        arguments: ['@AppBundle\Repository\BookRepository', '@AppBundle\Repository\CategoryRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Book\Command\EditBookCommand }
+        public: true
+    AppBundle\Book\QueryView\BooksView:
+        arguments: ['@Doctrine\DBAL\Connection', '@AppBundle\Repository\CategoryRepository']
+        public: true
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
