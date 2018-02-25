@@ -17,7 +17,11 @@ interface BookQuery
 
     /**
      * @param string $id
+     * @param string $userId
+     *
      * @return mixed
      */
-    public function getSingle(string $id);
+    public function getSingle(string $id, string $userId);
+
+    public function getAllUserBooks(string $id): array ;
 }

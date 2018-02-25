@@ -80,6 +80,12 @@ class Book
     private $categorycategory;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="book")
+     * @ORM\JoinColumn(name="user_id", nullable=false)
+     */
+    protected $user;
+
+    /**
      * Book constructor.
      * @param string $name
      * @param string $description
@@ -98,7 +104,8 @@ class Book
         string $lat,
         string $lng,
         string $type,
-        Category $categorycategory
+        Category $categorycategory,
+        User $user
     )
     {
         $this->name = $name;
@@ -109,6 +116,7 @@ class Book
         $this->type = $type;
         $this->idbook = Uuid::uuid4();
         $this->categorycategory = $categorycategory;
+        $this->user = $user;
     }
 
     /**
@@ -247,6 +255,22 @@ class Book
     public function setCategorycategory(Category $categorycategory)
     {
         $this->categorycategory = $categorycategory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 
 

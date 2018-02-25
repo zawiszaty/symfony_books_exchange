@@ -49,6 +49,8 @@ final class AddBookCommand
      */
     public $categorycategory;
 
+    public $user;
+
     /**
      * AddBookCommand constructor.
      * @param string $name
@@ -58,6 +60,7 @@ final class AddBookCommand
      * @param float $lng
      * @param string $type
      * @param string $categorycategory
+     * @param $user
      */
     public function __construct(
         string $name,
@@ -66,7 +69,8 @@ final class AddBookCommand
         float $lat,
         float $lng,
         string $type,
-        string $categorycategory
+        string $categorycategory,
+        string $user
     )
     {
         $this->name = $name;
@@ -76,6 +80,7 @@ final class AddBookCommand
         $this->lng = floatval($lng);
         $this->type = $type;
         $this->categorycategory = $categorycategory;
+        $this->user = $user;
     }
 
     /**
@@ -92,6 +97,14 @@ final class AddBookCommand
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUser(): int
+    {
+        return $this->user;
     }
 
     /**

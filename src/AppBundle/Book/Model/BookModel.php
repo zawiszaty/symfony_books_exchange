@@ -5,6 +5,7 @@ namespace AppBundle\Book\Model;
 
 
 use AppBundle\Entity\Category;
+use AppBundle\Entity\User;
 
 final class BookModel
 {
@@ -48,6 +49,11 @@ final class BookModel
      */
     private $categorycategory;
 
+    /*
+     * @var User
+     */
+    private $user;
+
     /**
      * BookModel constructor.
      * @param string $idbook
@@ -58,6 +64,7 @@ final class BookModel
      * @param float $lng
      * @param string $type
      * @param Category $categorycategory
+     * @param User $user
      */
     public function __construct(
         string $idbook,
@@ -67,7 +74,8 @@ final class BookModel
         float $lat,
         float $lng,
         string $type,
-        Category $categorycategory
+        Category $categorycategory,
+        User $user
     )
     {
         $this->idbook = $idbook;
@@ -78,6 +86,7 @@ final class BookModel
         $this->lng = $lng;
         $this->type = $type;
         $this->categorycategory = $categorycategory;
+        $this->user = $user;
     }
 
     /**
@@ -102,6 +111,14 @@ final class BookModel
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
     }
 
     /**

@@ -42,6 +42,16 @@ services:
         arguments:
             - AppBundle\Entity\Book
         public: true
+    AppBundle\Repository\UserRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\User
+        public: true
+    AppBundle\Repository\OfferRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments:
+            - AppBundle\Entity\Offer
+        public: true
 
     AppBundle\Category\CommandHandler\AddCategoryHandler:
         arguments: ['@AppBundle\Repository\CategoryRepository']
@@ -84,6 +94,15 @@ services:
         arguments: ['@Doctrine\DBAL\Connection', '@AppBundle\Repository\CategoryRepository']
         public: true
 
+    AppBundle\Offer\CommandHandler\AddOfferHandler:
+        arguments: ['@AppBundle\Repository\BookRepository', '@AppBundle\Repository\OfferRepository', '@AppBundle\Repository\UserRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Offer\Command\AddOfferCommand }
+        public: true
+
+    AppBundle\Offer\QueryView\OfferView:
+        arguments: ['@Doctrine\DBAL\Connection', '@AppBundle\Repository\UserRepository']
+        public: true
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

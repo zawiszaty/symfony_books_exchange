@@ -22,7 +22,8 @@ final class AddBookForm extends AbstractType
             ->add('lat')
             ->add('lng')
             ->add('type')
-            ->add('categorycategory');
+            ->add('categorycategory')
+            ->add('user');
     }
 
     /**

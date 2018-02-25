@@ -24,7 +24,7 @@ final class BookController extends FOSRestController
      *
      * @return Response
      */
-    public function getAllCategories(): Response
+    public function getAllBook(): Response
     {
         $booksQuery = $this->get('appbundle\book\queryview\booksview');
         $view = $this->view($booksQuery->getAll(), 200);
@@ -34,14 +34,34 @@ final class BookController extends FOSRestController
     /**
      * This method return all categories
      *
-     * @Rest\Get("/api/get/{id}/book")
+     * @Rest\Get("/api/panel/get/{id}/book")
      *
      * @return Response
      */
-    public function getSingleCategory(Request $request, string $id): Response
+    public function getSingleBook(Request $request, string $id): Response
+    {
+        $userId = $this->container
+            ->get('security.token_storage')
+            ->getToken()
+            ->getUser()
+            ->getId();
+
+        $booksQuery = $this->get('appbundle\book\queryview\booksview');
+        $view = $this->view($booksQuery->getSingle($id, $userId), 200);
+        return $this->handleView($view);
+    }
+
+    /**
+     * This method return all categories
+     *
+     * @Rest\Get("/api/get/user/{id}/book")
+     *
+     * @return Response
+     */
+    public function getAllUserBooks(Request $request, string $id): Response
     {
         $booksQuery = $this->get('appbundle\book\queryview\booksview');
-        $view = $this->view($booksQuery->getSingle($id), 200);
+        $view = $this->view($booksQuery->getAllUserBooks($id), 200);
         return $this->handleView($view);
     }
 
@@ -63,6 +83,7 @@ final class BookController extends FOSRestController
         $lng = $request->request->get("lng");
         $type = $request->request->get("type");
         $categorycategory = $request->request->get("categorycategory");
+        $user = $request->request->get("user");
 
         $addCategory = new AddBookCommand
         (
@@ -72,7 +93,8 @@ final class BookController extends FOSRestController
             $lat,
             $lng,
             $type,
-            $categorycategory
+            $categorycategory,
+            $user
         );
         $form = $this->createForm(AddBookForm::class, $addCategory);
         $form->submit($request->request->all());
@@ -96,16 +118,15 @@ final class BookController extends FOSRestController
      *
      * @return Response
      *
-     * @Rest\Delete("/api/delete/book")
+     * @Rest\Delete("/api/delete/{id}/book")
      */
-    public function deleteBook(Request $request): Response
+    public function deleteBook(Request $request, string $id): Response
     {
-        $idBook = $request->request->get('idBook');
-
-        $deleteBook = new DeleteBookCommand($idBook);
+        $idBook = ["idBook" => $id];
+        $deleteBook = new DeleteBookCommand($id);
 
         $form = $this->createForm(DeleteBookForm::class, $deleteBook);
-        $form->submit($request->request->all());
+        $form->submit($idBook);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('command_bus')->handle(
@@ -130,7 +151,7 @@ final class BookController extends FOSRestController
      */
     public function editBook(Request $request): Response
     {
-        $idBook = $request->request->get("idBook");
+        $idBook = $request->request->get("idbook");
         $name = $request->request->get("name");
         $description = $request->request->get("description");
         $address = $request->request->get("address");
@@ -150,8 +171,19 @@ final class BookController extends FOSRestController
             $categorycategory
         );
 
+        $data = [
+            'idBook' => $idBook,
+            'name' => $name,
+            'description' => $description,
+            'address' => $address,
+            'lat' => $lat,
+            'lng' => $lng,
+            'type' => $type,
+            'categorycategory' => $categorycategory
+        ];
+
         $form = $this->createForm(EditBookForm::class, $editBook);
-        $form->submit($request->request->all());
+        $form->submit($data);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('command_bus')->handle(
                 $editBook

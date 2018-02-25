@@ -18,7 +18,7 @@ final class BookRepository extends EntityRepository
     public function removeElement(string $id): void
     {
         $book = $this->find($id);
-        $this->getEntityManager()->remove($book);
+        $book->setArchived(1);
         $this->getEntityManager()->flush();
     }
 
