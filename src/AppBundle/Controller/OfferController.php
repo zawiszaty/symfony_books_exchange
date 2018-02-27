@@ -2,12 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\AcceptedOfferForm;
 use AppBundle\Form\AddOfferForm;
+use AppBundle\Form\RejectedOfferForm;
+use AppBundle\Offer\Command\AcceptedOfferCommand;
 use AppBundle\Offer\Command\AddOfferCommand;
+use AppBundle\Offer\Command\RejectedOfferCommand;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\Annotations as Rest;
 
 final class OfferController extends FOSRestController
 {
@@ -43,6 +47,7 @@ final class OfferController extends FOSRestController
         $view = $this->view($offerQuery->getRequestedUserOffer($id), 200);
         return $this->handleView($view);
     }
+
     /**
      * This method add new Offer
      *
@@ -76,6 +81,82 @@ final class OfferController extends FOSRestController
             $this->get('command_bus')->handle(
                 $addOffer
             );
+            $view = $this->view('success', 200);
+            return $this->handleView($view);
+        }
+
+        $view = $this->view($form->getErrors(), 500);
+        return $this->handleView($view);
+    }
+
+    /**
+ * This method accepted Offer
+ *
+ * @param Request $request request object
+ *
+ * @return Response
+ *
+ * @Rest\Post("/api/panel/accepted/offer")
+ */
+    public function acceptedOffer(Request $request)
+    {
+        $user = $this->container
+            ->get('security.token_storage')
+            ->getToken()
+            ->getUser()
+            ->getId();
+        $data = [
+            'idoffer' => $request->request->get('idoffer'),
+            'requiredUser' => $user
+        ];
+        $acceptedCommand = new AcceptedOfferCommand(
+            $data['idoffer'],
+            $user
+        );
+
+        $form = $this->createForm(AcceptedOfferForm::class, $acceptedCommand);
+        $form->submit($data);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('command_bus')->handle($acceptedCommand);
+            $view = $this->view('success', 200);
+            return $this->handleView($view);
+        }
+
+        $view = $this->view($form->getErrors(), 500);
+        return $this->handleView($view);
+    }
+
+    /**
+     * This method accepted Offer
+     *
+     * @param Request $request request object
+     *
+     * @return Response
+     *
+     * @Rest\Post("/api/panel/rejected/offer")
+     */
+    public function rejectedOffer(Request $request)
+    {
+        $user = $this->container
+            ->get('security.token_storage')
+            ->getToken()
+            ->getUser()
+            ->getId();
+        $data = [
+            'idoffer' => $request->request->get('idoffer'),
+            'requiredUser' => $user
+        ];
+        $rejectedCommand = new RejectedOfferCommand(
+            $data['idoffer'],
+            $user
+        );
+
+        $form = $this->createForm(RejectedOfferForm::class, $rejectedCommand);
+        $form->submit($data);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('command_bus')->handle($rejectedCommand);
             $view = $this->view('success', 200);
             return $this->handleView($view);
         }

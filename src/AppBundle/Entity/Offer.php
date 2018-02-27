@@ -178,6 +178,14 @@ class Offer
         return $this->requiredUser;
     }
 
+    public function acceptedOffer(): void
+    {
+        $this->accepted = 1;
+    }
 
+    public function rejectedOffer(): void
+    {
+        $this->rejected = 1;
+    }
 }
 

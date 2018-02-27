@@ -12,4 +12,29 @@ final class OfferRepository extends EntityRepository
         $this->getEntityManager()->persist($offer);
         $this->getEntityManager()->flush();
     }
+
+    public function accepted(string $offerId, string $userId): void
+    {
+        $offer = $this->find($offerId);
+        if ($offer->getRequiredUser()->getId() != $userId && $offer->isRejected() == 1) {
+            throw new \Exception();
+        }
+        $offer->acceptedOffer();
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function rejected(string $offerId, string $userId): void
+    {
+        $offer = $this->find($offerId);
+        if (
+            $offer->getRequiredUser()->getId() != $userId
+            && $offer->isAccepted() == 1
+        ) {
+            throw new \Exception();
+        }
+        $offer->rejectedOffer();
+
+        $this->getEntityManager()->flush();
+    }
 }

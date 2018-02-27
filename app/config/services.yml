@@ -99,6 +99,16 @@ services:
         tags:
             - { name: command_handler, handles: AppBundle\Offer\Command\AddOfferCommand }
         public: true
+    AppBundle\Offer\CommandHandler\AcceptedOfferHandler:
+        arguments: ['@AppBundle\Repository\BookRepository', '@AppBundle\Repository\OfferRepository', '@AppBundle\Repository\UserRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Offer\Command\AcceptedOfferCommand }
+        public: true
+    AppBundle\Offer\CommandHandler\RejectedOfferHandler:
+        arguments: ['@AppBundle\Repository\BookRepository', '@AppBundle\Repository\OfferRepository', '@AppBundle\Repository\UserRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Offer\Command\RejectedOfferCommand }
+        public: true
 
     AppBundle\Offer\QueryView\OfferView:
         arguments: ['@Doctrine\DBAL\Connection', '@AppBundle\Repository\UserRepository']
