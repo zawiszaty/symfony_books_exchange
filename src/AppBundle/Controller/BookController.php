@@ -34,7 +34,7 @@ final class BookController extends FOSRestController
     /**
      * This method return all categories
      *
-     * @Rest\Get("/api/panel/get/{id}/book")
+     * @Rest\Get("/api/panel/get/book/{id}")
      *
      * @return Response
      */
@@ -54,14 +54,19 @@ final class BookController extends FOSRestController
     /**
      * This method return all categories
      *
-     * @Rest\Get("/api/get/user/{id}/book")
+     * @Rest\Get("/api/panel/get/user/book")
      *
      * @return Response
      */
-    public function getAllUserBooks(Request $request, string $id): Response
+    public function getAllUserBooks(Request $request): Response
     {
+        $userId = $this->container
+            ->get('security.token_storage')
+            ->getToken()
+            ->getUser()
+            ->getId();
         $booksQuery = $this->get('appbundle\book\queryview\booksview');
-        $view = $this->view($booksQuery->getAllUserBooks($id), 200);
+        $view = $this->view($booksQuery->getAllUserBooks($userId), 200);
         return $this->handleView($view);
     }
 
@@ -85,8 +90,7 @@ final class BookController extends FOSRestController
         $categorycategory = $request->request->get("categorycategory");
         $user = $request->request->get("user");
 
-        $addCategory = new AddBookCommand
-        (
+        $addCategory = new AddBookCommand(
             $name,
             $description,
             $address,

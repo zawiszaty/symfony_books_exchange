@@ -95,21 +95,38 @@ class Offer
      * @param string $description
      * @param Book $offeredBook
      * @param Book $requiredBook
+     * @param $offeredUser
+     * @param User $requiredUser
+     * @param int $seen
+     * @param int $accepted
+     * @param int $rejected
      */
-    public function __construct(string $description, Book $offeredBook, Book $requiredBook, User $offeredUser, User $requiredUser)
-    {
+    public function __construct(
+        string $description,
+        Book $offeredBook,
+        Book $requiredBook,
+        User $offeredUser,
+        User $requiredUser,
+        int $seen,
+        int $accepted,
+        int $rejected
+    ) {
         $this->description = $description;
         $this->idoffer = Uuid::uuid4();
         $this->offeredBook = $offeredBook;
         $this->requiredBook = $requiredBook;
         $this->requiredUser = $requiredUser;
         $this->offeredUser = $offeredUser;
+        $this->seen = $seen;
+        $this->accepted = $accepted;
+        $this->rejected = $rejected;
     }
 
     /**
      * @return string
      */
-    public function getDescription(): string
+    public
+    function getDescription(): string
     {
         return $this->description;
     }
@@ -117,7 +134,8 @@ class Offer
     /**
      * @return bool
      */
-    public function isSeen(): bool
+    public
+    function isSeen(): bool
     {
         return $this->seen;
     }
@@ -125,7 +143,8 @@ class Offer
     /**
      * @return bool
      */
-    public function isAccepted(): bool
+    public
+    function isAccepted(): bool
     {
         return $this->accepted;
     }
@@ -133,7 +152,8 @@ class Offer
     /**
      * @return bool
      */
-    public function isRejected(): bool
+    public
+    function isRejected(): bool
     {
         return $this->rejected;
     }
@@ -141,7 +161,8 @@ class Offer
     /**
      * @return string
      */
-    public function getIdoffer(): string
+    public
+    function getIdoffer(): string
     {
         return $this->idoffer;
     }
@@ -149,7 +170,8 @@ class Offer
     /**
      * @return Book
      */
-    public function getOfferedBook(): Book
+    public
+    function getOfferedBook(): Book
     {
         return $this->offeredBook;
     }
@@ -157,7 +179,8 @@ class Offer
     /**
      * @return Book
      */
-    public function getRequiredBook(): Book
+    public
+    function getRequiredBook(): Book
     {
         return $this->requiredBook;
     }
@@ -165,7 +188,8 @@ class Offer
     /**
      * @return User
      */
-    public function getOfferedUser(): User
+    public
+    function getOfferedUser(): User
     {
         return $this->offeredUser;
     }
@@ -173,17 +197,20 @@ class Offer
     /**
      * @return User
      */
-    public function getRequiredUser(): User
+    public
+    function getRequiredUser(): User
     {
         return $this->requiredUser;
     }
 
-    public function acceptedOffer(): void
+    public
+    function acceptedOffer(): void
     {
         $this->accepted = 1;
     }
 
-    public function rejectedOffer(): void
+    public
+    function rejectedOffer(): void
     {
         $this->rejected = 1;
     }

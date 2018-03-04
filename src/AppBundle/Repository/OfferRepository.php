@@ -16,7 +16,10 @@ final class OfferRepository extends EntityRepository
     public function accepted(string $offerId, string $userId): void
     {
         $offer = $this->find($offerId);
-        if ($offer->getRequiredUser()->getId() != $userId && $offer->isRejected() == 1) {
+        if ($offer->getRequiredUser()->getId() != $userId
+            || $offer->isAccepted() == 1
+            || $offer->isRejected() == 1
+        ) {
             throw new \Exception();
         }
         $offer->acceptedOffer();
@@ -29,7 +32,8 @@ final class OfferRepository extends EntityRepository
         $offer = $this->find($offerId);
         if (
             $offer->getRequiredUser()->getId() != $userId
-            && $offer->isAccepted() == 1
+            || $offer->isAccepted() == 1
+            || $offer->isRejected() == 1
         ) {
             throw new \Exception();
         }

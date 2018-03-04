@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Book\Command\DeleteBookCommand;
 use AppBundle\Form\AcceptedOfferForm;
 use AppBundle\Form\AddOfferForm;
 use AppBundle\Form\RejectedOfferForm;
@@ -81,6 +82,17 @@ final class OfferController extends FOSRestController
             $this->get('command_bus')->handle(
                 $addOffer
             );
+
+            $deleteCommand = new DeleteBookCommand($addOffer->getRequiredBook());
+            $this->get('command_bus')->handle(
+                $deleteCommand
+            );
+
+            $deleteCommand = new DeleteBookCommand($addOffer->getOfferedBook());
+            $this->get('command_bus')->handle(
+                $deleteCommand
+            );
+
             $view = $this->view('success', 200);
             return $this->handleView($view);
         }
@@ -90,14 +102,14 @@ final class OfferController extends FOSRestController
     }
 
     /**
- * This method accepted Offer
- *
- * @param Request $request request object
- *
- * @return Response
- *
- * @Rest\Post("/api/panel/accepted/offer")
- */
+     * This method accepted Offer
+     *
+     * @param Request $request request object
+     *
+     * @return Response
+     *
+     * @Rest\Post("/api/panel/accepted/offer")
+     */
     public function acceptedOffer(Request $request)
     {
         $user = $this->container

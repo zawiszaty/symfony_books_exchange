@@ -57,7 +57,7 @@ class BooksView implements BookQuery
                 'b.user_id'
             )
             ->from('book', 'b')
-            ->andWhere('b.archived = 0');
+            ->where('b.archived = 0');
         $books = $this->connection->fetchAll(
             $queryBuilder->getSQL(),
             $queryBuilder->getParameters()

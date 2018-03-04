@@ -53,7 +53,10 @@ final class AddOfferHandler
             $bookOffered,
             $bookRequired,
             $offeredUser,
-            $requiredUser
+            $requiredUser,
+            0,
+            0,
+            0
         );
 
         $this->offerRepository->save($offer);
