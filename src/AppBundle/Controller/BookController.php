@@ -65,6 +65,7 @@ final class BookController extends FOSRestController
             ->getToken()
             ->getUser()
             ->getId();
+
         $booksQuery = $this->get('appbundle\book\queryview\booksview');
         $view = $this->view($booksQuery->getAllUserBooks($userId), 200);
         return $this->handleView($view);

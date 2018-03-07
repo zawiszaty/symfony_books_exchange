@@ -214,5 +214,10 @@ class Offer
     {
         $this->rejected = 1;
     }
+
+    public function seenOffer(): void
+    {
+        $this->seen = '1';
+    }
 }
 

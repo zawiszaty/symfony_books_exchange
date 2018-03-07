@@ -41,4 +41,15 @@ final class OfferRepository extends EntityRepository
 
         $this->getEntityManager()->flush();
     }
+
+    public function seen(array $idoffer): void
+    {
+        foreach ($idoffer as $item) {
+            $offer = $this->find($item);
+            $offer->seenOffer();
+
+        }
+        $this->getEntityManager()->flush();
+    }
+
 }

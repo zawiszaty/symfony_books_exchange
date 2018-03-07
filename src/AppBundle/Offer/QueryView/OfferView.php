@@ -75,7 +75,7 @@ final class OfferView implements OfferQuery
 
     }
 
-    public function getRequestedUserOffer(string $userId): array
+    public function getNewOffer(string $userId): array
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

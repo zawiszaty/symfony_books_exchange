@@ -109,6 +109,12 @@ services:
         tags:
             - { name: command_handler, handles: AppBundle\Offer\Command\RejectedOfferCommand }
         public: true
+    AppBundle\Offer\CommandHandler\SeenOfferHandler:
+        arguments: ['@AppBundle\Repository\OfferRepository']
+        tags:
+            - { name: command_handler, handles: AppBundle\Offer\Command\SeenOfferCommand }
+        public: true
+
 
     AppBundle\Offer\QueryView\OfferView:
         arguments: ['@Doctrine\DBAL\Connection', '@AppBundle\Repository\UserRepository']
