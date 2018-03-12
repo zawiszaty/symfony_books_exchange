@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new SimpleBus\SymfonyBridge\SimpleBusEventBusBundle(),
             new SimpleBus\SymfonyBridge\DoctrineOrmBridgeBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

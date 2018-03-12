@@ -3,8 +3,9 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
@@ -14,8 +15,7 @@ class User extends BaseUser
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string")
      */
     protected $id;
 
@@ -28,15 +28,20 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+        $this->id = Uuid::uuid4();
     }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
 }

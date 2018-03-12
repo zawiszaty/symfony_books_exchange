@@ -109,10 +109,11 @@ class Offer
         User $requiredUser,
         int $seen,
         int $accepted,
-        int $rejected
-    ) {
+        int $rejected,
+        $id = false
+    )
+    {
         $this->description = $description;
-        $this->idoffer = Uuid::uuid4();
         $this->offeredBook = $offeredBook;
         $this->requiredBook = $requiredBook;
         $this->requiredUser = $requiredUser;
@@ -120,6 +121,11 @@ class Offer
         $this->seen = $seen;
         $this->accepted = $accepted;
         $this->rejected = $rejected;
+        if ($id) {
+            $this->idoffer = $id;
+        } else {
+            $this->idoffer = Uuid::uuid4();
+        }
     }
 
     /**

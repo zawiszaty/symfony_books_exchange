@@ -77,7 +77,7 @@ fos_rest:
             default_format: json
     format_listener:
             rules:
-                - { path: '^/api/', priorities: ['json', 'xml'], prefer_extension: false }
+                - { path: ^/api/, priorities: [json], fallback_format: json, prefer_extension: true }
 lexik_jwt_authentication:
     private_key_path: '%jwt_private_key_path%'
     public_key_path:  '%jwt_public_key_path%'
@@ -109,8 +109,8 @@ nelmio_cors:
             max_age: 3600
         '^/':
             origin_regex: true
-            allow_origin: ['^http://localhost:[0-9]+']
-            allow_headers: ['X-Custom-Auth']
+            allow_origin: ['*']
+            allow_headers: ['*']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
             hosts: ['^api\.']

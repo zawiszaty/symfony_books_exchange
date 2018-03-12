@@ -78,31 +78,40 @@ final class BookController extends FOSRestController
      *
      * @return Response
      *
-     * @Rest\Put("/api/add/book")
+     * @Rest\Put("/api/panel/add/book")
      */
     public function addBook(Request $request): Response
     {
-        $name = $request->request->get("name");
-        $description = $request->request->get("description");
-        $address = $request->request->get("address");
-        $lat = $request->request->get("lat");
-        $lng = $request->request->get("lng");
-        $type = $request->request->get("type");
-        $categorycategory = $request->request->get("categorycategory");
-        $user = $request->request->get("user");
+
+        $data = [
+            "name"=> $request->request->get("name"),
+            "description"=> $request->request->get("description"),
+            "address"=> $request->request->get("address"),
+            "lat" => $request->request->get("lat"),
+            "lng" => $request->request->get("lng"),
+            "type" => $request->request->get("type"),
+            "categorycategory" => $request->request->get("categorycategory"),
+            "user" => $this->container
+                ->get('security.token_storage')
+                ->getToken()
+                ->getUser()
+                ->getId()
+        ];
+
 
         $addCategory = new AddBookCommand(
-            $name,
-            $description,
-            $address,
-            $lat,
-            $lng,
-            $type,
-            $categorycategory,
-            $user
+            $data['name'],
+            $data['description'],
+            $data['address'],
+            $data['lat'],
+            $data['lng'],
+            $data['type'],
+            $data['categorycategory'],
+            $data['user']
         );
+
         $form = $this->createForm(AddBookForm::class, $addCategory);
-        $form->submit($request->request->all());
+        $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('command_bus')->handle(
@@ -152,7 +161,7 @@ final class BookController extends FOSRestController
      * @param string $id book id
      * @return Response
      *
-     * @Rest\Post("/api/edit/book")
+     * @Rest\Post("/api/panel/edit/book")
      */
     public function editBook(Request $request): Response
     {

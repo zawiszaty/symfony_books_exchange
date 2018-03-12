@@ -47,9 +47,13 @@ class Category
      * @param string $name category name
      * @param string $description category description
      */
-    public function __construct(string $name, string $description)
+    public function __construct(string $name, string $description, $id = false)
     {
-        $this->idcategory = Uuid::uuid4();
+        if ($id) {
+            $this->idcategory = $id;
+        } else {
+            $this->idcategory = Uuid::uuid4();
+        }
         $this->name = $name;
         $this->description = $description;
     }
